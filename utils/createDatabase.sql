@@ -1,10 +1,22 @@
+create table lbsystem_teachers (
+  id int auto_increment primary key,
+  name varchar(255) not NULL,
+  email varchar(255) not null,
+  birthDate date not null
+);
+
 create table lbsystem_class (
   id int auto_increment primary key,
   name varchar(255) not null,
   startdate date not null,
   enddate date not null,
-  module varchar(255)
+  module varchar(255),
+  id_teacher int unique not null
 );
+alter table lbsystem_class
+add constraint fk_id_teacher_lbsystem_class
+foreign key(id_teacher)
+references lbsystem_teachers(id);
 
 create table lbsystem_students (
   id int auto_increment primary key,
@@ -18,12 +30,6 @@ add constraint fk_id_class_lbsystem_students
 foreign key(id_class)
 references lbsystem_class(id);
 
-create table lbsystem_teachers (
-  id int auto_increment primary key,
-  name varchar(255) not NULL,
-  email varchar(255) not null,
-  birthDate date not null
-);
 create table lbsystem_skills (
   id int auto_increment primary key,
   name enum(
@@ -51,37 +57,6 @@ add constraint fk_id_skill_lbsystem_skillteachers
 foreign key (id_skill)
 references lbsystem_skills(id); 
 
-create table lbsystem_classteachers(
-  id_class int not null,
-  id_teachers int not null,
-  primary key(id_class,id_teachers)
-);
-alter table lbsystem_classteachers
-add constraint fk_id_class_lbsystem_classteachers
-foreign key (id_class)
-references lbsystem_class(id); 
-alter table lbsystem_classteachers
-add constraint fk_id_sudent_lbsystem_classteachers
-foreign key (id_teachers)
-references lbsystem_teachers(id); 
-
-insert into lbsystem_class values
-(1,"AAA","2020-01-01","2020-06-30",7),
-(2,"BBB","2020-07-01","2020-12-31",7),
-(3,"CCC","2021-01-01","2021-06-30",5),
-(4,"DDD","2021-07-01","2021-12-31",6),
-(5,"FFF","2022-01-01","2021-06-30",0),
-(6,"GGG","2022-07-01","2022-12-31",0);
-
-insert into skills values
-(1, "React"),      
-(2, "Redux"),      
-(3, "CSS"),        
-(4, "Testes"),     
-(5, "Typescript"), 
-(6, "POO"),        
-(7, "Backend");    
-
 insert into lbsystem_teachers values
 (1,"Mateus Gesualdo","mateus@gmail.com","1980-01-01"),
 (2,"Amanda Rangel","amanda@gmail.com","1990-01-01"),
@@ -90,6 +65,22 @@ insert into lbsystem_teachers values
 (5,"Darvas","darvas@gmail.com","1992-01-01"),
 (6,"Bruno Movio","bruno@gmail.com","1995-01-01");
 
+insert into lbsystem_class values
+(1,"AAA","2020-01-01","2020-06-30",7,1),
+(2,"BBB","2020-07-01","2020-12-31",7,2),
+(3,"CCC","2021-01-01","2021-06-30",5,3),
+(4,"DDD","2021-07-01","2021-12-31",6,4),
+(5,"FFF","2022-01-01","2021-06-30",0,5),
+(6,"GGG","2022-07-01","2022-12-31",0,6);
+
+insert into lbsystem_skills values
+(1, "React"),      
+(2, "Redux"),      
+(3, "CSS"),        
+(4, "Testes"),     
+(5, "Typescript"), 
+(6, "POO"),        
+(7, "Backend");    
 
 insert into lbsystem_skillteachers values 
 (1,4),
@@ -108,25 +99,6 @@ insert into lbsystem_skillteachers values
 (5,6),
 (5,7),
 (6,7);
-
-insert into lbsystem_classteachers values
-(1,1),
-(1,2),
-(1,5),
-(1,6),
-(2,3),
-(2,4),
-(2,6),
-(3,1),
-(3,2),
-(3,3),
-(3,4),
-(3,5),
-(3,6),
-(4,3),
-(4,4),
-(4,5);
-
 
 insert into lbsystem_students values 
 (1,"joao","joao@gmail.com","1980-01-01",1),
