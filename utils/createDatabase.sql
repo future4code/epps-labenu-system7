@@ -57,6 +57,24 @@ add constraint fk_id_skill_lbsystem_skillteachers
 foreign key (id_skill)
 references lbsystem_skills(id); 
 
+create table lbsystem_hobbies(
+  id int auto_increment primary key,
+  name varchar(255)
+);
+create table lbsystem_hobbiesstudents(
+  id_student int,
+  id_hobbie int,
+  primary key (id_student,id_hobbie)
+);
+alter table lbsystem_hobbiesstudents 
+add constraint fk_id_student_lbsystem_hobbiesstudents
+foreign key(id_student)
+references lbsystem_students(id); 
+alter table lbsystem_hobbiesstudents 
+add constraint fk_id_hobbie_lbsystem_hobbiesstudents
+foreign key(id_hobbie)
+references lbsystem_hobbies(id); 
+
 insert into lbsystem_teachers values
 (1,"Mateus Gesualdo","mateus@gmail.com","1980-01-01"),
 (2,"Amanda Rangel","amanda@gmail.com","1990-01-01"),
@@ -127,11 +145,6 @@ insert into lbsystem_students values
 (24,"querlen","querlen@gmail.com","2003-01-01",6),
 (25,"karina","karina@gmail.com","2004-01-01",6);
 
-create table lbsystem_hobbies(
-  id int auto_increment primary key,
-  name varchar(255)
-);
-
 insert into lbsystem_hobbies values
 (1,"football"),
 (2,"basket"),
@@ -143,20 +156,6 @@ insert into lbsystem_hobbies values
 (8,"swin"),
 (9,"sleep"),
 (10,"nothing");
-
-create table lbsystem_hobbiesstudents(
-  id_student int,
-  id_hobbie int,
-  primary key (id_student,id_hobbie)
-);
-alter table lbsystem_hobbiesstudents 
-add constraint fk_id_student_lbsystem_hobbiesstudents
-foreign key(id_student)
-references lbsystem_students(id); 
-alter table lbsystem_hobbiesstudents 
-add constraint fk_id_hobbie_lbsystem_hobbiesstudents
-foreign key(id_hobbie)
-references lbsystem_hobbies(id); 
 
 insert into lbsystem_hobbiesstudents values 
 (1,1),
