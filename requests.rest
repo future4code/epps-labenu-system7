@@ -1,0 +1,20 @@
+PUT http://localhost:3000/student
+Content-Type: application/json
+
+{
+  "name": "a",
+  "email": "",
+  "birthDate": "1900-01-01",
+  "id_class": "1"
+}
+
+###
+
+PUT http://localhost:3000/teacher
+Content-Type: application/json
+
+{
+  "name": "Novo professor",
+  "email": "professor@gmail.com",
+  "birthDate": "1900-01-01"
+}
