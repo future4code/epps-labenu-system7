@@ -1,11 +1,7 @@
 import app from "./app";
 import { Request, Response } from "express";
-//FUNCTIONS
-import createStudent from "./functions/createStudent";
-import createTeacher from "./functions/createTeacher";
-//TYPES
-import studentType from "./types/student";
-import teacherType from "./types/teacher";
+import { createStudent, createTeacher } from "./functions";
+import { teacherType, studentType } from "./types";
 
 // INSERT A NEW STUDENT
 app.put(

@@ -6,4 +6,9 @@ export type studentType = {
   id_class: number;
 };
 
-export default studentType;
+export type teacherType = {
+  id: number | null;
+  name: string;
+  email: string;
+  birthDate: string;
+};
