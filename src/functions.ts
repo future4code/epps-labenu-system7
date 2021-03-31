@@ -95,3 +95,44 @@ export const getStudentsSameHobby = async (): Promise<any> => {
   group by hbb.name
   `);
 };
+
+export const removeStudentFromClass = async (
+  idStudent: string
+): Promise<void> => {
+  return await connection.raw(`
+  update lbsystem_students set
+  id_class = null
+  where
+  id = ${idStudent}
+  `);
+};
+
+export const deleteStudent = async (idStudent: string): Promise<any> => {
+  await connection.raw(`
+  delete from lbsystem_hobbiesstudents where id_student = ${idStudent};
+  `);
+  await connection.raw(
+    `delete from lbsystem_students where id = ${idStudent};`
+  );
+};
+
+export const removeTeacherFromClass = async (
+  idTeacher: string,
+  idClass: string
+) => {
+  await connection.raw(`
+  delete from lbsystem_classteachers 
+  where
+  id_class = ${idClass} and
+  id_teacher = ${idTeacher};
+  `);
+};
+
+export const changeModuleClass = async (idClass: string, module: string) => {
+  await connection.raw(`
+  update lbsystem_class set
+  module = ${module}
+  where
+  id = ${idClass};
+  `);
+};

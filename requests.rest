@@ -60,9 +60,26 @@ GET http://localhost:3003/teachersbyclass/2
 ###
 GET http://localhost:3003/studentssamehobby/
 
+###
+PUT http://localhost:3003/removestudentfromclass/1
 
+###
+DELETE http://localhost:3003/deletestudent/2
 
+###
+DELETE http://localhost:3003/removeteacherfromclass
+Content-Type: application/json
 
+{
+  "idClass": 3,
+  "idTeacher": 1
+}
 
+###
+PUT http://localhost:3003/moduleclass
+Content-Type: application/json
 
-
+{
+  "idClass": 100,
+  "module": "0"
+}

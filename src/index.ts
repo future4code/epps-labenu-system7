@@ -9,7 +9,11 @@ import {
   getStudentAge,
   getStudentsByClass,
   getTeachersByClass,
-  getStudentsSameHobby
+  getStudentsSameHobby,
+  removeStudentFromClass,
+  deleteStudent,
+  removeTeacherFromClass,
+  changeModuleClass,
 } from "./functions";
 import { teacherType, studentType, classType } from "./types";
 import { start } from "node:repl";
@@ -182,9 +186,6 @@ app.get("/studentage/:id", async (req: Request, res: Response) => {
   }
 });
 
-
-
-
 /************** CHALLENGES ***************/
 
 //GET STUDENTS BY CLASS
@@ -228,4 +229,72 @@ app.get("/studentssamehobby", async (req: Request, res: Response) => {
   }
 });
 
+//REMOVE STUDENT FROM CLASS
+app.put("/removestudentfromclass/:id", async (req: Request, res: Response) => {
+  let errorCode = 400;
+  const id: number = Number(req.params.id);
+  try {
+    if (isNaN(Number(id))) {
+      throw new Error("Invalid body!");
+    }
+    await removeStudentFromClass(id.toString());
+    res.status(200).send("Student successfully removed from the class.");
+  } catch (error) {
+    res.status(errorCode).send(error.message);
+  }
+});
 
+//DELETE STUDENT
+app.delete("/deletestudent/:id", async (req: Request, res: Response) => {
+  let errorCode = 400;
+  const id: number = Number(req.params.id);
+  try {
+    if (isNaN(Number(id))) {
+      throw new Error("Invalid body!");
+    }
+    await deleteStudent(id.toString());
+    res.status(200).send(`Student successfully deleted.`);
+  } catch (error) {
+    res.status(errorCode).send(error.message);
+  }
+});
+
+//REMOVE TEACHER FROM CLASS
+app.delete("/removeteacherfromclass", async (req: Request, res: Response) => {
+  let errorCode = 400;
+  const idClass: number = Number(req.body.idClass);
+  const idTeacher: number = Number(req.body.idTeacher);
+
+  try {
+    if (isNaN(Number(idClass)) || isNaN(Number(idTeacher))) {
+      throw new Error("Invalid body");
+    }
+    await removeTeacherFromClass(idTeacher.toString(), idClass.toString());
+    res
+      .status(200)
+      .send(
+        `Teacher ${idTeacher.toString()} in class ${idClass.toString()} removed sucesfully.`
+      );
+  } catch (error) {
+    res.status(errorCode).send(error.message);
+  }
+});
+
+//CHANGE MODULE CLASS
+app.put("/moduleclass", async (req: Request, res: Response) => {
+  let errorCode = 400;
+  const idClass: number = Number(req.body.idClass);
+  const module: number = Number(req.body.module);
+  try {
+    if (isNaN(Number(module)) || isNaN(Number(idClass))) {
+      throw new Error("Invalid body");
+    }
+    if (module > 7 || module < 0) {
+      throw new Error("The module must be between 0 and 7");
+    }
+    await changeModuleClass(idClass.toString(), module.toString());
+    res.status(200).send("Class module sucesfully changed.");
+  } catch (error) {
+    res.status(errorCode).send(error.message);
+  }
+});
