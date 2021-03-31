@@ -16,7 +16,6 @@ import {
   changeModuleClass,
 } from "./functions";
 import { teacherType, studentType, classType } from "./types";
-import { start } from "node:repl";
 import moment from "moment";
 
 //INSERT A NEW STUDENT
