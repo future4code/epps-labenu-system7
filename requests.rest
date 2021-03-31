@@ -1,4 +1,4 @@
-PUT http://localhost:3000/student
+PUT http://localhost:3003/student
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/teacher
+PUT http://localhost:3003/teacher
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/class
+PUT http://localhost:3003/class
 Content-Type: application/json
 
 {
@@ -29,3 +29,24 @@ Content-Type: application/json
   "module": "3",
   "id_teacher": "99"
 }
+
+###
+PUT http://localhost:3003/addstudentclass 
+Content-Type: application/json
+
+{
+  "idStudent": 1,
+  "idClass": 1
+}
+
+###
+PUT http://localhost:3003/addteacherclass 
+Content-Type: application/json
+
+{
+  "idTeacher": 27,
+  "idClass": 19
+}
+
+###
+GET http://localhost:3003/studentage/2

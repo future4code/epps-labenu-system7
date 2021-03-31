@@ -1,10 +1,18 @@
 import app from "./app";
 import { Request, Response } from "express";
-import { createStudent, createTeacher, createClass } from "./functions";
+import {
+  createStudent,
+  createTeacher,
+  createClass,
+  addStudentClass,
+  addTeacherClass,
+  getStudentAge,
+} from "./functions";
 import { teacherType, studentType, classType } from "./types";
 import { start } from "node:repl";
+import moment from "moment";
 
-// INSERT A NEW STUDENT
+//INSERT A NEW STUDENT
 app.put(
   "/student",
   async (req: Request, res: Response): Promise<any> => {
@@ -105,6 +113,68 @@ app.put("/class", async (req: Request, res: Response) => {
         .send("There is no teacher registered with the ID entered.");
     }
 
+    res.status(errorCode).send(error.message);
+  }
+});
+
+//ADD STUDENT A CLASS
+app.put(
+  "/addstudentclass",
+  async (req: Request, res: Response): Promise<any> => {
+    let errorCode = 400;
+    const idClass: number = Number(req.body.idClass);
+    const idStudent: number = Number(req.body.idStudent);
+
+    try {
+      if (isNaN(Number(idClass)) || isNaN(Number(idStudent))) {
+        throw new Error("Invalid body");
+      }
+      await addStudentClass(idStudent.toString(), idClass.toString());
+      res.status(200).send("Student successfully added to class.");
+    } catch (error) {
+      res.status(errorCode).send(error.message);
+    }
+  }
+);
+
+//ADD TEACHER A CLASS
+app.put(
+  "/addteacherclass",
+  async (req: Request, res: Response): Promise<any> => {
+    let errorCode = 400;
+    const idClass: number = Number(req.body.idClass);
+    const idTeacher: number = Number(req.body.idTeacher);
+
+    try {
+      if (isNaN(Number(idClass)) || isNaN(Number(idTeacher))) {
+        throw new Error("Invalid body");
+      }
+      await addTeacherClass(idClass.toString(), idTeacher.toString());
+      res.status(200).send("Teacher successfully added to class.");
+    } catch (error) {
+      if (error.message.includes(`Duplicate entry `)) {
+        res.status(errorCode).send("This teacher is alredy in another class.");
+      }
+      if (error.message.includes(`foreign key constraint fails`)) {
+        res
+          .status(errorCode)
+          .send("There is no teacher registered with the ID entered.");
+      }
+      res.status(errorCode).send(error.message);
+    }
+  }
+);
+
+//GET AGE STUDENT
+app.get("/studentage/:id", async (req: Request, res: Response) => {
+  let errorCode = 400;
+  const id: number = Number(req.params.id);
+  try {
+    const birthDate = await getStudentAge(id.toString());
+    const age = moment().diff(birthDate[0][0].birthDate, "years");
+    const name: string = birthDate[0][0].name as string;
+    res.status(200).send(`${name} have a ${age} years.`);
+  } catch (error) {
     res.status(errorCode).send(error.message);
   }
 });
