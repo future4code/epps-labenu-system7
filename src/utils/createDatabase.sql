@@ -10,14 +10,8 @@ create table lbsystem_class (
   name varchar(255) not null,
   startdate date not null,
   enddate date not null,
-  module int,
-  id_teacher int unique not null
+  module int
 );
-alter table lbsystem_class
-add constraint fk_id_teacher_lbsystem_class
-foreign key(id_teacher)
-references lbsystem_teachers(id);
-
 create table lbsystem_students (
   id int auto_increment primary key,
   name varchar(255) not null,
@@ -75,6 +69,20 @@ add constraint fk_id_hobbie_lbsystem_hobbiesstudents
 foreign key(id_hobbie)
 references lbsystem_hobbies(id); 
 
+create table lbsystem_classteachers(
+  id_class int,
+  id_teacher int,
+  primary key (id_class, id_teacher)
+);
+alter table lbsystem_classteachers
+add constraint fk_id_class_lbsystem_classteachers
+foreign key (id_class)
+references lbsystem_class(id);
+alter table lbsystem_classteachers
+add constraint fk_id_teacher_lbsystem_classteachers
+foreign key (id_teacher)
+references lbsystem_teachers(id);
+
 insert into lbsystem_teachers values
 (1,"Mateus Gesualdo","mateus@gmail.com","1980-01-01"),
 (2,"Amanda Rangel","amanda@gmail.com","1990-01-01"),
@@ -84,12 +92,12 @@ insert into lbsystem_teachers values
 (6,"Bruno Movio","bruno@gmail.com","1995-01-01");
 
 insert into lbsystem_class values
-(1,"AAA","2020-01-01","2020-06-30",7,1),
-(2,"BBB","2020-07-01","2020-12-31",7,2),
-(3,"CCC","2021-01-01","2021-06-30",5,3),
-(4,"DDD","2021-07-01","2021-12-31",6,4),
-(5,"FFF","2022-01-01","2021-06-30",0,5),
-(6,"GGG","2022-07-01","2022-12-31",0,6);
+(1,"AAA","2020-01-01","2020-06-30",7),
+(2,"BBB","2020-07-01","2020-12-31",7),
+(3,"CCC","2021-01-01","2021-06-30",5),
+(4,"DDD","2021-07-01","2021-12-31",6),
+(5,"FFF","2022-01-01","2021-06-30",0),
+(6,"GGG","2022-07-01","2022-12-31",0);
 
 insert into lbsystem_skills values
 (1, "React"),      
@@ -234,3 +242,25 @@ insert into lbsystem_hobbiesstudents values
 (25,3),
 (25,4),
 (25,5);
+
+insert into lbsystem_classteachers values
+(1,1),
+(1,4),
+(1,5),
+(1,2),
+(2,2),
+(2,6),
+(2,3),
+(2,1),
+(3,1),
+(3,2),
+(3,3),
+(4,3),
+(5,3),
+(5,2),
+(6,1),
+(6,2),
+(6,3),
+(6,4),
+(6,5),
+(6,6);

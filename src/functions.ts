@@ -58,5 +58,81 @@ export const addTeacherClass = async (
 export const getStudentAge = async (idStudent: string): Promise<any> => {
   return await connection.raw(
     `select birthDate,name from lbsystem_students where id= ${idStudent}`
-  ) as string;
+  );
+};
+
+export const getStudentsByClass = async (idClass: string): Promise<any> => {
+  return await connection.raw(`select
+  std.id as idStudent,
+  std.name as nameStudent,
+  std.email 
+  from lbsystem_students std
+  where
+  std.id_class = ${idClass};`);
+};
+
+export const getTeachersByClass = async (idClass: string): Promise<any> => {
+  return await connection.raw(`
+  SELECT 
+  tc.id as idTeacher,
+  tc.name  as nameTeacher,
+  tc.email  as emailTeacher
+  from lbsystem_classteachers ct
+  inner join lbsystem_teachers tc on (ct.id_teacher = tc.id)
+  where
+  ct.id_class = ${idClass}
+  `);
+};
+
+export const getStudentsSameHobby = async (): Promise<any> => {
+  return await connection.raw(`
+  select
+  hbb.name as hobbie,
+  GROUP_CONCAT(CONCAT(std.id,'-',std.name)) as students 
+  from lbsystem_students std
+  inner join lbsystem_hobbiesstudents sbb on (std.id = sbb.id_student)
+  inner join lbsystem_hobbies hbb on (sbb.id_hobbie = hbb.id)
+  group by hbb.name
+  `);
+};
+
+export const removeStudentFromClass = async (
+  idStudent: string
+): Promise<void> => {
+  return await connection.raw(`
+  update lbsystem_students set
+  id_class = null
+  where
+  id = ${idStudent}
+  `);
+};
+
+export const deleteStudent = async (idStudent: string): Promise<any> => {
+  await connection.raw(`
+  delete from lbsystem_hobbiesstudents where id_student = ${idStudent};
+  `);
+  await connection.raw(
+    `delete from lbsystem_students where id = ${idStudent};`
+  );
+};
+
+export const removeTeacherFromClass = async (
+  idTeacher: string,
+  idClass: string
+) => {
+  await connection.raw(`
+  delete from lbsystem_classteachers 
+  where
+  id_class = ${idClass} and
+  id_teacher = ${idTeacher};
+  `);
+};
+
+export const changeModuleClass = async (idClass: string, module: string) => {
+  await connection.raw(`
+  update lbsystem_class set
+  module = ${module}
+  where
+  id = ${idClass};
+  `);
 };
