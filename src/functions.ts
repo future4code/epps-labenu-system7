@@ -58,5 +58,15 @@ export const addTeacherClass = async (
 export const getStudentAge = async (idStudent: string): Promise<any> => {
   return await connection.raw(
     `select birthDate,name from lbsystem_students where id= ${idStudent}`
-  ) as string;
+  );
+};
+
+export const getStudentsByClass = async (idClass: string): Promise<any> => {
+  return await connection.raw(`select
+  std.id as idStudent,
+  std.name as nameStudent,
+  std.email 
+  from lbsystem_students std
+  where
+  std.id_class = ${idClass};`);
 };
