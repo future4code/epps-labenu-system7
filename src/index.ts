@@ -8,6 +8,8 @@ import {
   addTeacherClass,
   getStudentAge,
   getStudentsByClass,
+  getTeachersByClass,
+  getStudentsSameHobby
 } from "./functions";
 import { teacherType, studentType, classType } from "./types";
 import { start } from "node:repl";
@@ -180,7 +182,11 @@ app.get("/studentage/:id", async (req: Request, res: Response) => {
   }
 });
 
-//CHALLENGES
+
+
+
+/************** CHALLENGES ***************/
+
 //GET STUDENTS BY CLASS
 app.get("/studentsbyclass/:id", async (req: Request, res: Response) => {
   let errorCode = 400;
@@ -195,3 +201,31 @@ app.get("/studentsbyclass/:id", async (req: Request, res: Response) => {
     res.status(errorCode).send(error.message);
   }
 });
+
+//GET TEACHERS BY CLASS
+app.get("/teachersbyclass/:id", async (req: Request, res: Response) => {
+  let errorCode = 400;
+  const id: number = Number(req.params.id);
+  try {
+    if (isNaN(Number(id))) {
+      throw new Error("Invalid body!");
+    }
+    const result = await getTeachersByClass(id.toString());
+    res.status(200).send(result[0]);
+  } catch (error) {
+    res.status(errorCode).send(error.message);
+  }
+});
+
+//GET STUDENTS SAME HOBBY
+app.get("/studentssamehobby", async (req: Request, res: Response) => {
+  let errorCode = 400;
+  try {
+    const result = await getStudentsSameHobby();
+    res.status(200).send(result[0]);
+  } catch (error) {
+    res.status(errorCode).send(error.message);
+  }
+});
+
+

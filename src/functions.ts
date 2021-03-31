@@ -70,3 +70,28 @@ export const getStudentsByClass = async (idClass: string): Promise<any> => {
   where
   std.id_class = ${idClass};`);
 };
+
+export const getTeachersByClass = async (idClass: string): Promise<any> => {
+  return await connection.raw(`
+  SELECT 
+  tc.id as idTeacher,
+  tc.name  as nameTeacher,
+  tc.email  as emailTeacher
+  from lbsystem_classteachers ct
+  inner join lbsystem_teachers tc on (ct.id_teacher = tc.id)
+  where
+  ct.id_class = ${idClass}
+  `);
+};
+
+export const getStudentsSameHobby = async (): Promise<any> => {
+  return await connection.raw(`
+  select
+  hbb.name as hobbie,
+  GROUP_CONCAT(CONCAT(std.id,'-',std.name)) as students 
+  from lbsystem_students std
+  inner join lbsystem_hobbiesstudents sbb on (std.id = sbb.id_student)
+  inner join lbsystem_hobbies hbb on (sbb.id_hobbie = hbb.id)
+  group by hbb.name
+  `);
+};

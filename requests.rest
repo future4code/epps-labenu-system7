@@ -53,3 +53,16 @@ GET http://localhost:3003/studentage/2
 
 ###
 GET http://localhost:3003/studentsbyclass/4
+
+###
+GET http://localhost:3003/teachersbyclass/2
+
+###
+GET http://localhost:3003/studentssamehobby/
+
+
+
+
+
+
+
