@@ -1,5 +1,5 @@
 import connection from "./connection";
-import { studentType, teacherType } from "./types";
+import { studentType, teacherType, classType } from "./types";
 
 export const createStudent = async (student: studentType): Promise<any> => {
   const result = await connection(`lbsystem_students`).insert({
@@ -21,5 +21,17 @@ export const createTeacher = async (teacher: teacherType): Promise<any> => {
     birthDate: teacher.birthDate,
   });
 
+  return result;
+};
+
+export const createClass = async (newClass: classType): Promise<any> => {
+  const result = await connection(`lbsystem_class`).insert({
+    id: null,
+    name: newClass.name,
+    startdate: newClass.startdate,
+    enddate: newClass.enddate,
+    module: newClass.module,
+    id_teacher: newClass.id_teacher,
+  });
   return result;
 };

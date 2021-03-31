@@ -10,7 +10,7 @@ create table lbsystem_class (
   name varchar(255) not null,
   startdate date not null,
   enddate date not null,
-  module varchar(255),
+  module int,
   id_teacher int unique not null
 );
 alter table lbsystem_class
