@@ -1,0 +1,85 @@
+PUT http://localhost:3003/student
+Content-Type: application/json
+
+{
+  "name": "a",
+  "email": "",
+  "birthDate": "1900-01-01",
+  "id_class": "1"
+}
+
+###
+PUT http://localhost:3003/teacher
+Content-Type: application/json
+
+{
+  "name": "Novo professor",
+  "email": "professor@gmail.com",
+  "birthDate": "1900-01-01"
+}
+
+###
+PUT http://localhost:3003/class
+Content-Type: application/json
+
+{
+  "name": "novaTurma",
+  "startdate": "2022-01-01",
+  "enddate": "2022-12-31",
+  "module": "3",
+  "id_teacher": "99"
+}
+
+###
+PUT http://localhost:3003/addstudentclass 
+Content-Type: application/json
+
+{
+  "idStudent": 1,
+  "idClass": 1
+}
+
+###
+PUT http://localhost:3003/addteacherclass 
+Content-Type: application/json
+
+{
+  "idTeacher": 27,
+  "idClass": 19
+}
+
+###
+GET http://localhost:3003/studentage/2
+
+###
+GET http://localhost:3003/studentsbyclass/4
+
+###
+GET http://localhost:3003/teachersbyclass/2
+
+###
+GET http://localhost:3003/studentssamehobby/
+
+###
+PUT http://localhost:3003/removestudentfromclass/1
+
+###
+DELETE http://localhost:3003/deletestudent/2
+
+###
+DELETE http://localhost:3003/removeteacherfromclass
+Content-Type: application/json
+
+{
+  "idClass": 3,
+  "idTeacher": 1
+}
+
+###
+PUT http://localhost:3003/moduleclass
+Content-Type: application/json
+
+{
+  "idClass": 100,
+  "module": "0"
+}
